@@ -2,8 +2,8 @@ import model.City;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 
 class Main {
@@ -28,12 +28,15 @@ class Main {
         }
 
         /**
-         * Поиск города с наибольшим количеством жителей;
+         * Определить количество городов в разрезе регионов;
          */
 
-        City maxPopulationCity = cityList.stream().max((x, y) -> x.getPopulation() - y.getPopulation()).get();
-        System.out.println("[" + cityList.indexOf(maxPopulationCity) + "] = "
-                + new DecimalFormat( "###,###" ).format(maxPopulationCity.getPopulation()));
+        HashMap<String, Integer> countCityOfRegion = new HashMap<>();
+        cityList.forEach(e -> countCityOfRegion.compute(e.getRegion(), (key, value)-> value==null? 1 : ++value));
+
+        countCityOfRegion.forEach((key, value) -> {
+            System.out.println(key + " - " + value);
+        });
 
     }
 }
